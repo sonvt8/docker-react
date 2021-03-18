@@ -6,3 +6,15 @@ before_install:
   - docker build -t sonvt8/docker-react -f Dockerfile.dev .
 script:
   - docker run -e CI=true sonvt8/docker-react npm run test
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-react-udemy"
+  env: "Dockerreactudemy-env"
+  bucket_name: "elasticbeanstalk-us-east-2-233953162808"  #Travis would zip all files in Github and put it into this bucket_name located in S3
+  bucket_path: "docker-react-udemy"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "AWS_SECRET_KEY"
